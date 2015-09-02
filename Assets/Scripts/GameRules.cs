@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GameRules : MonoBehaviour {
 
-	private bool startGame=false;
+	public static bool startGame=false;
 	public static float time=180.00f;
 	public static GameObject[] currentChipArray;
 	private bool showResult=false;
@@ -12,7 +12,6 @@ public class GameRules : MonoBehaviour {
 	void Update () {
 		if (startGame) {
 			time-=Time.deltaTime;
-			GameObject TimerObject = GameObject.Find("TimeLabel");
 
 			Debug.Log (time);
 			if(time<=0){

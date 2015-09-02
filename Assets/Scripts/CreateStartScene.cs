@@ -42,9 +42,7 @@ public class CreateStartScene : MonoBehaviour {
 				materialNumber++;
 			}
 		}
-		//foreach (var item in chipList) {
-		//	startChipList.Add(new ObjectCoords(item.transform.position.x,item.transform.position.y));
-		//}
+		GameRules.currentChipArray=GameObject.FindGameObjectsWithTag("Chip");
 	}
 	// Use this for initialization
 	void Start () {

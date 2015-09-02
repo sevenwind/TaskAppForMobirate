@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System.Collections.Generic;
+using System;
 
 public class MainController : MonoBehaviour {
 
@@ -10,26 +11,29 @@ public class MainController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		UpdateFreeSquare();
+		MixChips (10);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetMouseButtonDown(0)) {
-			RaycastHit hit;
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			if (Physics.Raycast(ray,out hit)) {
-				Debug.Log (hit.transform.name);
-				if(hit.transform.name.Contains("Chip")){
-					Debug.Log (freeSquareXCoord + " // "+ freeSquareYCoord);
-					if((hit.transform.position.x==freeSquareXCoord || hit.transform.position.y==freeSquareYCoord)){
-						if(Mathf.Abs(hit.transform.position.x-freeSquareXCoord)==1|| Mathf.Abs(hit.transform.position.y-freeSquareYCoord)==1){
-							MoveChip(hit.transform,freeSquareXCoord,freeSquareYCoord);
+		if (GameRules.startGame) {
+			if (Input.GetMouseButtonDown(0)) {
+				RaycastHit hit;
+				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+				if (Physics.Raycast(ray,out hit)) {
+					Debug.Log (hit.transform.name);
+					if(hit.transform.name.Contains("Chip")){
+						Debug.Log (freeSquareXCoord + " // "+ freeSquareYCoord);
+						if((hit.transform.position.x==freeSquareXCoord || hit.transform.position.y==freeSquareYCoord)){
+							if(Mathf.Abs(hit.transform.position.x-freeSquareXCoord)==1|| Mathf.Abs(hit.transform.position.y-freeSquareYCoord)==1){
+								MoveChip(hit.transform,freeSquareXCoord,freeSquareYCoord);
+							}
 						}
 					}
 				}
+				GameRules.currentChipArray=GameObject.FindGameObjectsWithTag("Chip");
+				UpdateFreeSquare();
 			}
-			GameRules.currentChipArray=GameObject.FindGameObjectsWithTag("Chip");
-			UpdateFreeSquare();
 		}
 	}
 
@@ -53,6 +57,24 @@ public class MainController : MonoBehaviour {
 				freeSquareYCoord=squareArray[i].transform.position.y;
 				Debug.Log ("Результат "+freeSquareXCoord+ " " +freeSquareYCoord);
 			}
+		}
+	}
+
+	public static void MixChips(int iterationsCount){
+		List<GameObject> canMoveChipList = new List<GameObject> ();
+		int iteration = 0;
+		while (iteration < iterationsCount) {
+			for (int i=0; i<CreateStartScene.chipList.Count; i++) {
+				if ((CreateStartScene.chipList [i].transform.position.x == freeSquareXCoord || CreateStartScene.chipList [i].transform.position.y == freeSquareYCoord)) {
+					if (Mathf.Abs (CreateStartScene.chipList [i].transform.position.x - freeSquareXCoord) == 1 || Mathf.Abs (CreateStartScene.chipList [i].transform.position.y - freeSquareYCoord) == 1) {
+						canMoveChipList.Add (CreateStartScene.chipList [i]);
+					}
+				}
+			}
+			int index = UnityEngine.Random.Range (0, canMoveChipList.Count - 1);
+			MoveChip (canMoveChipList [index].transform, freeSquareXCoord, freeSquareYCoord);
+			UpdateFreeSquare();
+			iteration++;
 		}
 	}
 
