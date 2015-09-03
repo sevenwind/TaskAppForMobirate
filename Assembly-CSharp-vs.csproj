@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\CreateStartScene.cs" />
+     <Compile Include="Assets\Scripts\GameDecision.cs" />
      <Compile Include="Assets\Scripts\GameRules.cs" />
      <Compile Include="Assets\Scripts\MainController.cs" />
      <Compile Include="Assets\Scripts\ObjectCoords.cs" />

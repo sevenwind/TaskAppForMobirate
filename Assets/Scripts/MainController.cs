@@ -11,7 +11,7 @@ public class MainController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		UpdateFreeSquare();
-		MixChips (10);
+		//MixChips (5);
 	}
 	
 	// Update is called once per frame
@@ -55,12 +55,12 @@ public class MainController : MonoBehaviour {
 			if(isBusySquare[i]==false){
 				freeSquareXCoord=squareArray[i].transform.position.x;
 				freeSquareYCoord=squareArray[i].transform.position.y;
-				Debug.Log ("Результат "+freeSquareXCoord+ " " +freeSquareYCoord);
+				Debug.Log ("Свободная клетка находится в коодринатах: х= "+freeSquareXCoord+ " у= " +freeSquareYCoord);
 			}
 		}
 	}
 
-	public static void MixChips(int iterationsCount){
+	public void MixChips(int iterationsCount){
 		List<GameObject> canMoveChipList = new List<GameObject> ();
 		int iteration = 0;
 		while (iteration < iterationsCount) {
@@ -72,9 +72,14 @@ public class MainController : MonoBehaviour {
 				}
 			}
 			int index = UnityEngine.Random.Range (0, canMoveChipList.Count - 1);
+			Debug.Log ("Колличество элемнтов для движения: "+canMoveChipList.Count+" Передвигаемый элемент:  "+canMoveChipList [index].name+ " с координатами х= " +
+			           canMoveChipList [index].transform.position.x +" у= "+canMoveChipList [index].transform.position.y+ 
+			           "\n Двигаем его в клетку с координатами: х= "+freeSquareXCoord+" у= "+freeSquareYCoord);
 			MoveChip (canMoveChipList [index].transform, freeSquareXCoord, freeSquareYCoord);
 			UpdateFreeSquare();
+			canMoveChipList.Clear();
 			iteration++;
+			//yield return new WaitForSeconds(1); 
 		}
 	}
 
