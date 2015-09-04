@@ -71,7 +71,7 @@ public class MainController : MonoBehaviour {
 					}
 				}
 			}
-			int index = UnityEngine.Random.Range (0, canMoveChipList.Count - 1);
+			int index = UnityEngine.Random.Range (0, canMoveChipList.Count);
 			Debug.Log ("Колличество элемнтов для движения: "+canMoveChipList.Count+" Передвигаемый элемент:  "+canMoveChipList [index].name+ " с координатами х= " +
 			           canMoveChipList [index].transform.position.x +" у= "+canMoveChipList [index].transform.position.y+ 
 			           "\n Двигаем его в клетку с координатами: х= "+freeSquareXCoord+" у= "+freeSquareYCoord);
@@ -79,8 +79,8 @@ public class MainController : MonoBehaviour {
 			UpdateFreeSquare();
 			canMoveChipList.Clear();
 			iteration++;
-			//yield return new WaitForSeconds(1); 
 		}
+		 
 	}
 
 	public static void MoveChip (Transform chipForMove, float targetXCoord, float targetYCoord) {
